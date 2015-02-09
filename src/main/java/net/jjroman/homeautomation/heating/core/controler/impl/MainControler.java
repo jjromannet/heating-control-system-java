@@ -5,10 +5,13 @@ import net.jjroman.homeautomation.heating.core.controler.ControlLogic;
 import net.jjroman.homeautomation.heating.core.controler.Controler;
 import net.jjroman.homeautomation.heating.core.controler.EnvironmentSnapshot;
 import net.jjroman.homeautomation.heating.core.modules.LogicalModule;
+import net.jjroman.homeautomation.heating.core.modules.ModuleState;
 import org.omg.CORBA.Environment;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jan on 08/02/2015.
@@ -44,8 +47,22 @@ public class MainControler implements Controler{
     }
 
     private EnvironmentSnapshot createEnvironmentSnapshot(){
+        // Mocking ...
+        Map<String, Double> doubleValues = new HashMap<>();
+        Map<LogicalModule, ModuleState> modulesStates = new HashMap<>();
+        Map<String, Boolean> booleanValues = new HashMap<>();
 
-        return null;
+        doubleValues.put("coalburner.current_water_temperature", 30.00);
+        doubleValues.put("coalburner.turn_on_water_temperature", 55.00);
+        doubleValues.put("coalburner.turn_off_water_temperature", 60.00);
+        booleanValues.put("coalburner.module_turned_on", true);
+
+        for(LogicalModule module : modules){
+            modulesStates.put(module, module.getCurrentStatus());
+        }
+
+
+        return new OneMinuteEnvironmentSnapshot(doubleValues, modulesStates, booleanValues);
     }
 
 }

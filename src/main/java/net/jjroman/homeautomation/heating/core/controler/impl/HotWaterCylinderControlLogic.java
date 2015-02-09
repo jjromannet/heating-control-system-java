@@ -11,6 +11,6 @@ import net.jjroman.homeautomation.heating.core.modules.LogicalModule;
 public class HotWaterCylinderControlLogic implements ControlLogic {
     @Override
     public ControlAction generateAction(LogicalModule logicalModule, EnvironmentSnapshot environmentSnapshot) {
-        return null;
+        return new NopControlAction();
     }
 }
