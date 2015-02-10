@@ -3,8 +3,8 @@ package net.jjroman.homeautomation.heating.core.controler.impl;
 import net.jjroman.homeautomation.heating.core.controler.EnvironmentSnapshot;
 import net.jjroman.homeautomation.heating.core.modules.LogicalModule;
 import net.jjroman.homeautomation.heating.core.modules.ModuleState;
-import org.omg.CORBA.Environment;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -17,9 +17,9 @@ public class OneMinuteEnvironmentSnapshot implements EnvironmentSnapshot {
     private final Map<String, Boolean> booleanValues;
 
     public OneMinuteEnvironmentSnapshot(Map<String, Double> doubleValues, Map<LogicalModule, ModuleState> modulesStates, Map<String, Boolean> booleanValues) {
-        this.doubleValues = doubleValues;
-        this.modulesStates = modulesStates;
-        this.booleanValues = booleanValues;
+        this.doubleValues = Collections.unmodifiableMap(doubleValues);
+        this.modulesStates = Collections.unmodifiableMap(modulesStates);
+        this.booleanValues = Collections.unmodifiableMap(booleanValues);
     }
 
     @Override
