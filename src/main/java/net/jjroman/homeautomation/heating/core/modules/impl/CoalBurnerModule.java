@@ -28,7 +28,7 @@ public class CoalBurnerModule implements LogicalModule {
             return false;
         }
         if(currentState.equals(from)){
-            // TODO ... ALL LOGIC
+            // TODO ... ALL CONTROL LOGIC
             currentState = to;
             return true;
         }else{

@@ -40,7 +40,7 @@ public class MainControler implements Controler{
         for(LogicalModule module : modules){
             for(ControlLogic currentLogic : controlLogics) {
                 ControlAction actionToPerform = currentLogic.generateAction(module, environmentSnapshot);
-                boolean success = actionToPerform.execute();
+                boolean success = actionToPerform.execute(module);
             }
 
         }

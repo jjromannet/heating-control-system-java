@@ -17,25 +17,33 @@ public class ChangeStateAction implements ControlAction {
 
     private final ModuleState from;
     private final ModuleState to;
-    private final LogicalModule targetModule;
 
-    public ChangeStateAction(ModuleState from, ModuleState to, LogicalModule targetModule){
+    public ChangeStateAction(ModuleState from, ModuleState to){
         super();
         this.from = from;
         this.to = to;
-        this.targetModule = targetModule;
-        logger.debug(String.format("Created ChangeStateAction object from state: %s to state: %s, target module: %s", from,to,targetModule));
+        logger.debug(String.format("Created ChangeStateAction object from state: %s to state: %s", from,to));
     }
 
 
     @Override
-    public boolean execute() {
+    public boolean execute(LogicalModule targetModule) {
         boolean returnValue = false;
         try {
+            logger.debug(String.format("Applying ChangeStateAction from state: %s to state: %s to targetModule: %s", from,to, targetModule));
             returnValue = targetModule.changeStatus(from, to);
+            if(returnValue)
+                    logger.debug("ChangeStateAction applied");
+            else
+                    logger.warn("ChangeStateAction failed");
+
         } catch (UnknownModuleStateException ex){
             ExceptionHandler.handle(ex);
         }
         return returnValue;
+    }
+
+    public ModuleState getNewState(){
+        return to;
     }
 }

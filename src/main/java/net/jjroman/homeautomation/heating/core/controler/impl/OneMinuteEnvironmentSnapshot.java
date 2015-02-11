@@ -5,6 +5,7 @@ import net.jjroman.homeautomation.heating.core.modules.LogicalModule;
 import net.jjroman.homeautomation.heating.core.modules.ModuleState;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**

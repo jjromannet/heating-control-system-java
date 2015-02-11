@@ -24,12 +24,12 @@ public class CoalBurnerModuleTest {
     @Test
     public void switchReturnsFalseForSameState(){
         CoalBurnerModule coalBurnerModule = new CoalBurnerModule();
-        ChangeStateAction changeStateAction = new ChangeStateAction(CoalBurnerModule.OFF, CoalBurnerModule.OFF, coalBurnerModule);
-        Assert.assertFalse(changeStateAction.execute());
-        changeStateAction = new ChangeStateAction(CoalBurnerModule.ACTIVE_HEATING, CoalBurnerModule.ACTIVE_HEATING, coalBurnerModule);
-        Assert.assertFalse(changeStateAction.execute());
-        changeStateAction = new ChangeStateAction(CoalBurnerModule.STANDBY, CoalBurnerModule.STANDBY, coalBurnerModule);
-        Assert.assertFalse(changeStateAction.execute());
+        ChangeStateAction changeStateAction = new ChangeStateAction(CoalBurnerModule.OFF, CoalBurnerModule.OFF);
+        Assert.assertFalse(changeStateAction.execute(coalBurnerModule));
+        changeStateAction = new ChangeStateAction(CoalBurnerModule.ACTIVE_HEATING, CoalBurnerModule.ACTIVE_HEATING);
+        Assert.assertFalse(changeStateAction.execute(coalBurnerModule));
+        changeStateAction = new ChangeStateAction(CoalBurnerModule.STANDBY, CoalBurnerModule.STANDBY);
+        Assert.assertFalse(changeStateAction.execute(coalBurnerModule));
     }
     @Test
     public void stateChangedCorrectly(){
@@ -41,16 +41,16 @@ public class CoalBurnerModuleTest {
         from = CoalBurnerModule.OFF;
         to = CoalBurnerModule.STANDBY;
 
-        changeStateAction = new ChangeStateAction(from, to, coalBurnerModule);
-        Assert.assertTrue(changeStateAction.execute());
+        changeStateAction = new ChangeStateAction(from, to);
+        Assert.assertTrue(changeStateAction.execute(coalBurnerModule));
         Assert.assertEquals(coalBurnerModule.getCurrentStatus(), to);
 
         coalBurnerModule = new CoalBurnerModule();
         from = CoalBurnerModule.OFF;
         to = CoalBurnerModule.ACTIVE_HEATING;
 
-        changeStateAction = new ChangeStateAction(from, to, coalBurnerModule);
-        Assert.assertTrue(changeStateAction.execute());
+        changeStateAction = new ChangeStateAction(from, to);
+        Assert.assertTrue(changeStateAction.execute(coalBurnerModule));
         Assert.assertEquals(coalBurnerModule.getCurrentStatus(), to);
 
 

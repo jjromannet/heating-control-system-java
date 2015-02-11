@@ -8,7 +8,7 @@ import net.jjroman.homeautomation.heating.core.modules.UnknownModuleStateExcepti
  * Created by Jan on 08/02/2015.
  */
 public class HotWaterCylinderModule implements LogicalModule {
-
+    public static final ModuleState UNSPECIFIED = new HotWaterCylinderModuleState();
     @Override
     public boolean changeStatus(ModuleState from, ModuleState to) throws UnknownModuleStateException {
         //TODO
@@ -18,6 +18,6 @@ public class HotWaterCylinderModule implements LogicalModule {
     @Override
     public ModuleState getCurrentStatus() {
         //TODO
-        return null;
+        return UNSPECIFIED;
     }
 }
