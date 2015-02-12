@@ -52,7 +52,7 @@ public class CoalBurnerControlLogicTest {
     public void noTransitionOffOff(){
         ControlAction controlAction =  calculateAction(
                 CoalBurnerModule.OFF
-                , true, 10.0, 60.0, 50.0);
+                , false, 10.0, 60.0, 50.0);
 
         Assert.assertNotNull(controlAction);
         Assert.assertTrue(controlAction.getClass().isAssignableFrom(NopControlAction.class));
@@ -66,7 +66,7 @@ public class CoalBurnerControlLogicTest {
                 , false, 10.0, 60.0, 50.0);
 
         Assert.assertNotNull(controlAction);
-        Assert.assertTrue(controlAction.getClass().isAssignableFrom(NopControlAction.class));
+        Assert.assertTrue(controlAction.getClass().isAssignableFrom(ChangeStateAction.class));
         Assert.assertEquals(controlAction.getNewState(), CoalBurnerModule.OFF);
     }
 
@@ -77,7 +77,7 @@ public class CoalBurnerControlLogicTest {
                 , false, 10.0, 60.0, 50.0);
 
         Assert.assertNotNull(controlAction);
-        Assert.assertTrue(controlAction.getClass().isAssignableFrom(NopControlAction.class));
+        Assert.assertTrue(controlAction.getClass().isAssignableFrom(ChangeStateAction.class));
         Assert.assertEquals(controlAction.getNewState(), CoalBurnerModule.OFF);
     }
 
@@ -88,7 +88,7 @@ public class CoalBurnerControlLogicTest {
                 , true, 45.0, 60.0, 45.1);
 
         Assert.assertNotNull(controlAction);
-        Assert.assertTrue(controlAction.getClass().isAssignableFrom(NopControlAction.class));
+        Assert.assertTrue(controlAction.getClass().isAssignableFrom(ChangeStateAction.class));
         Assert.assertEquals(controlAction.getNewState(), CoalBurnerModule.ACTIVE_HEATING);
     }
     @Test
@@ -98,7 +98,7 @@ public class CoalBurnerControlLogicTest {
                 , true, 35.0, 60.0, 55);
 
         Assert.assertNotNull(controlAction);
-        Assert.assertTrue(controlAction.getClass().isAssignableFrom(NopControlAction.class));
+        Assert.assertTrue(controlAction.getClass().isAssignableFrom(ChangeStateAction.class));
         Assert.assertEquals(controlAction.getNewState(), CoalBurnerModule.ACTIVE_HEATING);
     }
 
@@ -109,7 +109,7 @@ public class CoalBurnerControlLogicTest {
                 , true, 61.0, 60.0, 55);
 
         Assert.assertNotNull(controlAction);
-        Assert.assertTrue(controlAction.getClass().isAssignableFrom(NopControlAction.class));
+        Assert.assertTrue(controlAction.getClass().isAssignableFrom(ChangeStateAction.class));
         Assert.assertEquals(controlAction.getNewState(), CoalBurnerModule.STANDBY);
     }
 
@@ -120,7 +120,7 @@ public class CoalBurnerControlLogicTest {
                 , true, 55.0, 50.0, 35);
 
         Assert.assertNotNull(controlAction);
-        Assert.assertTrue(controlAction.getClass().isAssignableFrom(NopControlAction.class));
+        Assert.assertTrue(controlAction.getClass().isAssignableFrom(ChangeStateAction.class));
         Assert.assertEquals(controlAction.getNewState(), CoalBurnerModule.STANDBY);
     }
 
