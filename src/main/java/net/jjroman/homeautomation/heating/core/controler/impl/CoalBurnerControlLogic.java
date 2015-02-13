@@ -51,6 +51,7 @@ public class CoalBurnerControlLogic implements ControlLogic {
                     wantedState = CoalBurnerModule.STANDBY;
                     logger.debug("turn off temperature threshold reached - go to STANDBY");
                 }else{
+
                     wantedState = currentState;
                     logger.debug("required temperature between thresholds stay at " + currentState);
                 }
@@ -61,6 +62,7 @@ public class CoalBurnerControlLogic implements ControlLogic {
                 return new ChangeStateAction(currentState, wantedState);
             }else{
                 logger.debug(String.format("Already on  required state: %s - NopControlAction to be returned", wantedState));
+                return new NopControlAction(wantedState);
             }
         }else{
             logger.debug("CoalBurnerControlLogic is not able to handle passed object - pass responsibility forward");
