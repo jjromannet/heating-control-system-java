@@ -8,6 +8,7 @@ import net.jjroman.homeautomation.heating.core.controler.impl.MainControler;
 import net.jjroman.homeautomation.heating.core.modules.LogicalModule;
 import net.jjroman.homeautomation.heating.core.modules.impl.CoalBurnerModule;
 import net.jjroman.homeautomation.heating.core.modules.impl.HotWaterCylinderModule;
+import net.jjroman.homeautomation.heating.io.gpioexecutor.MockExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Main {
         controlLogics.add(new CoalBurnerControlLogic());
         controlLogics.add(new HotWaterCylinderControlLogic());
 
-        logicalModules.add(new CoalBurnerModule());
+        logicalModules.add(new CoalBurnerModule(MockExecutor.INSTANCE));
         logicalModules.add(new HotWaterCylinderModule());
 
         Controler controler = new MainControler(logicalModules, controlLogics);

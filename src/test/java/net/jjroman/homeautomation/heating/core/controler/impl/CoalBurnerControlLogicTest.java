@@ -6,6 +6,7 @@ import net.jjroman.homeautomation.heating.core.controler.EnvironmentSnapshot;
 import net.jjroman.homeautomation.heating.core.modules.LogicalModule;
 import net.jjroman.homeautomation.heating.core.modules.ModuleState;
 import net.jjroman.homeautomation.heating.core.modules.impl.CoalBurnerModule;
+import net.jjroman.homeautomation.heating.io.gpioexecutor.MockExecutor;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ public class CoalBurnerControlLogicTest {
 
     private ControlAction calculateAction(ModuleState initialModuleState, boolean moduleTurnedOn, double temperatureCurrent, double temperatureOff, double temperatureOn){
 
-        LogicalModule module = new CoalBurnerModule();
+        LogicalModule module = new CoalBurnerModule(MockExecutor.INSTANCE);
         Map<LogicalModule, ModuleState> stateMap = new HashMap<>();
         stateMap.put(module, initialModuleState);
         Map<String, Boolean> booleanValues = new HashMap<>();
@@ -38,14 +39,36 @@ public class CoalBurnerControlLogicTest {
     }
 
     @Test
-    public void transitionOffStandby(){
+    public void transitionOffActiveHeatingA(){
         ControlAction controlAction =  calculateAction(
                 CoalBurnerModule.OFF
                 , true, 10.0, 60.0, 50.0);
 
         Assert.assertNotNull(controlAction);
         Assert.assertTrue(controlAction.getClass().isAssignableFrom(ChangeStateAction.class));
-        Assert.assertEquals(controlAction.getNewState(), CoalBurnerModule.STANDBY);
+        Assert.assertEquals(controlAction.getNewState(), CoalBurnerModule.ACTIVE_HEATING);
+    }
+
+    @Test
+    public void transitionOffActiveHeatingB(){
+        ControlAction controlAction =  calculateAction(
+                CoalBurnerModule.OFF
+                , true, 55.0, 60.0, 50.0);
+
+        Assert.assertNotNull(controlAction);
+        Assert.assertTrue(controlAction.getClass().isAssignableFrom(ChangeStateAction.class));
+        Assert.assertEquals(controlAction.getNewState(), CoalBurnerModule.ACTIVE_HEATING);
+    }
+
+    @Test
+    public void transitionOffActiveHeatingC(){
+        ControlAction controlAction =  calculateAction(
+                CoalBurnerModule.OFF
+                , true, 65.0, 60.0, 50.0);
+
+        Assert.assertNotNull(controlAction);
+        Assert.assertTrue(controlAction.getClass().isAssignableFrom(ChangeStateAction.class));
+        Assert.assertEquals(controlAction.getNewState(), CoalBurnerModule.ACTIVE_HEATING);
     }
 
     @Test

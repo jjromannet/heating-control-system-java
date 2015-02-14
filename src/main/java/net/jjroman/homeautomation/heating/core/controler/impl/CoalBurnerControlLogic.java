@@ -7,13 +7,14 @@ import net.jjroman.homeautomation.heating.core.controler.EnvironmentSnapshot;
 import net.jjroman.homeautomation.heating.core.modules.LogicalModule;
 import net.jjroman.homeautomation.heating.core.modules.ModuleState;
 import net.jjroman.homeautomation.heating.core.modules.impl.CoalBurnerModule;
+import net.jjroman.homeautomation.heating.core.modules.impl.CoalBurnerModuleState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
  *
  * State transition Logic:
  * OFF -> OFF                       NopControlAction        turnedOn = false
- * OFF -> STANDBY                   ChangeStateAction       currentState = OFF AND turnedOn = true
+ * OFF -> ACTIVE_HEATING            ChangeStateAction       currentState = OFF AND turnedOn = true
  * STANDBY -> OFF                   ChangeStateAction       currentState = STANDBY AND turnedOn = false
  * ACTIVE_HEATING -> OFF            ChangeStateAction       currentState = ACTIVE_HEATING AND turnedOn = false
  * STANDBY -> ACTIVE_HEATING        ChangeStateAction       currentState = STANDBY AND CurrentTemperature < OnTemp AND turnedOn = true
@@ -39,22 +40,45 @@ public class CoalBurnerControlLogic implements ControlLogic {
 
             // TODO: Configs category - configuration key / env indicator value
             ModuleState currentState = environmentSnapshot.getCurrentState(logicalModule);
-            ModuleState wantedState = null;
-            if(moduleTurnedOn == false){
-                wantedState = CoalBurnerModule.OFF;
-                logger.debug("CoalBurnerModule is turned off");
-            }else {
-                if (turnOnTemp > currentTemp) {
-                    wantedState = CoalBurnerModule.ACTIVE_HEATING;
-                    logger.debug("turn on temperature threshold reached - go to ACTIVE_HEATING");
-                } else if(turnOffTemp < currentTemp) {
-                    wantedState = CoalBurnerModule.STANDBY;
-                    logger.debug("turn off temperature threshold reached - go to STANDBY");
-                }else{
+            ModuleState wantedState = currentState; // By default remain on the state
 
-                    wantedState = currentState;
-                    logger.debug("required temperature between thresholds stay at " + currentState);
-                }
+            switch((CoalBurnerModuleState)currentState){
+                case OFF:
+
+                    if(moduleTurnedOn){
+                        wantedState = CoalBurnerModule.ACTIVE_HEATING;
+                        logger.debug("CoalBurnerModule is turning on");
+                    }else{
+                        wantedState = CoalBurnerModule.OFF;
+                        logger.debug("CoalBurnerModule remains turned off");
+                    }
+
+                    break;
+                case STANDBY:
+                    if(moduleTurnedOn == false){
+                        wantedState = CoalBurnerModule.OFF;
+                        logger.debug("CoalBurnerModule remains turned off");
+                    }else{
+                        if ( turnOnTemp > currentTemp ) {
+                            wantedState = CoalBurnerModule.ACTIVE_HEATING;
+                            logger.debug("turn on temperature threshold reached - go to ACTIVE_HEATING");
+                        }
+                    }
+                    break;
+                case ACTIVE_HEATING:
+                    if(moduleTurnedOn == false){
+                        wantedState = CoalBurnerModule.OFF;
+                        logger.debug("CoalBurnerModule remains turned off");
+                    }else{
+                        if (turnOffTemp < currentTemp) {
+                            wantedState = CoalBurnerModule.STANDBY;
+                            logger.debug("turn off temperature threshold reached - go to STANDBY");
+                        }
+                    }
+                    break;
+                default:
+                    throw new UnsupportedOperationException();
+
             }
 
             if( !wantedState.equals(currentState)){
@@ -67,7 +91,7 @@ public class CoalBurnerControlLogic implements ControlLogic {
         }else{
             logger.debug("CoalBurnerControlLogic is not able to handle passed object - pass responsibility forward");
         }
-        logger.debug("Default return of null");
+        logger.debug("Default return of NopControlAction");
         return new NopControlAction(logicalModule.getCurrentStatus());
     }
 }
