@@ -4,6 +4,7 @@ import net.jjroman.homeautomation.heating.core.modules.LogicalModule;
 import net.jjroman.homeautomation.heating.core.modules.ModuleState;
 
 /**
+ * Enviroment Snapshot implementation have to be immutable.
  * Created by Jan on 08/02/2015.
  */
 public interface EnvironmentSnapshot {
@@ -14,4 +15,6 @@ public interface EnvironmentSnapshot {
     ModuleState getCurrentState(LogicalModule logicalModule);
 
     Boolean getBooleanValue(String key);
+
+    ConfigurationSnapshot getConfigurationSnapshot();
 }

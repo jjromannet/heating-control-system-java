@@ -1,5 +1,6 @@
 package net.jjroman.homeautomation.heating.core.controler.impl;
 
+import com.google.common.collect.ImmutableSet;
 import net.jjroman.homeautomation.heating.core.controler.ControlAction;
 import net.jjroman.homeautomation.heating.core.controler.ControlLogic;
 import net.jjroman.homeautomation.heating.core.controler.Controler;
@@ -65,4 +66,8 @@ public class MainControler implements Controler{
         return new OneMinuteEnvironmentSnapshot(doubleValues, modulesStates, booleanValues);
     }
 
+    public ImmutableSet<ModuleState> getAvailableStates(){
+        // TODO
+        return null;
+    }
 }

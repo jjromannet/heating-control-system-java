@@ -28,13 +28,12 @@ public class Main {
         controlLogics.add(new CoalBurnerControlLogic());
         controlLogics.add(new HotWaterCylinderControlLogic());
 
-        logicalModules.add(new CoalBurnerModule(MockExecutor.INSTANCE));
+        logicalModules.add(new CoalBurnerModule(MockExecutor.INSTANCE, null));
         logicalModules.add(new HotWaterCylinderModule());
 
         Controler controler = new MainControler(logicalModules, controlLogics);
 
         // TODO: nice thread handling
         (new Thread(controler)).run();
-
      }
 }

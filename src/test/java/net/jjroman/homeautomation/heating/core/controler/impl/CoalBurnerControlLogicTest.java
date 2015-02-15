@@ -18,10 +18,12 @@ import java.util.Map;
  */
 public class CoalBurnerControlLogicTest {
 
+    private EnvironmentSnapshot environmentSnapshot = new OneMinuteEnvironmentSnapshot(new HashMap<String, Double>(), new HashMap<LogicalModule, ModuleState>(), new HashMap<String, Boolean>());
+
 
     private ControlAction calculateAction(ModuleState initialModuleState, boolean moduleTurnedOn, double temperatureCurrent, double temperatureOff, double temperatureOn){
 
-        LogicalModule module = new CoalBurnerModule(MockExecutor.INSTANCE);
+        LogicalModule module = new CoalBurnerModule(MockExecutor.INSTANCE, environmentSnapshot);
         Map<LogicalModule, ModuleState> stateMap = new HashMap<>();
         stateMap.put(module, initialModuleState);
         Map<String, Boolean> booleanValues = new HashMap<>();
