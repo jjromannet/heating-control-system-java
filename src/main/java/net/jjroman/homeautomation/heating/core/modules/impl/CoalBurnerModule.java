@@ -8,12 +8,14 @@ import com.pi4j.io.gpio.RaspiPin;
 import net.jjroman.homeautomation.heating.core.ExceptionHandler;
 import net.jjroman.homeautomation.heating.core.controler.ConfigurationSnapshot;
 import net.jjroman.homeautomation.heating.core.controler.EnvironmentSnapshot;
+import net.jjroman.homeautomation.heating.core.controler.Measure;
 import net.jjroman.homeautomation.heating.core.modules.CoalBurnerModuleConfiguration;
 import net.jjroman.homeautomation.heating.core.modules.LogicalModule;
 import net.jjroman.homeautomation.heating.core.modules.ModuleState;
 import net.jjroman.homeautomation.heating.core.modules.UnknownModuleStateException;
 import net.jjroman.homeautomation.heating.io.gpioexecutor.HardwareExecutor;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -25,6 +27,8 @@ public class CoalBurnerModule implements LogicalModule {
 
     private final Pin fan;
     private final Pin coalDispenser;
+
+    private Set<Measure> requiredMeasures = new HashSet<>();
 
     public static final ModuleState ACTIVE_HEATING = CoalBurnerModuleState.ACTIVE_HEATING;
     public static final ModuleState STANDBY = CoalBurnerModuleState.STANDBY;

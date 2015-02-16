@@ -2,6 +2,8 @@ package net.jjroman.homeautomation.heating.core.controler.impl;
 
 import net.jjroman.homeautomation.heating.core.controler.ConfigurationSnapshot;
 import net.jjroman.homeautomation.heating.core.controler.EnvironmentSnapshot;
+import net.jjroman.homeautomation.heating.core.controler.MeasuresSnapshot;
+import net.jjroman.homeautomation.heating.core.controler.ModuleStateSnapshot;
 import net.jjroman.homeautomation.heating.core.modules.LogicalModule;
 import net.jjroman.homeautomation.heating.core.modules.ModuleState;
 
@@ -41,6 +43,18 @@ public class OneMinuteEnvironmentSnapshot implements EnvironmentSnapshot {
 
     @Override
     public ConfigurationSnapshot getConfigurationSnapshot() {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public MeasuresSnapshot getMeasuresSnapshot(){
+        // TODO
+        return null;
+    }
+
+    @Override
+    public ModuleStateSnapshot getModuleStateSnapshot(){
         // TODO
         return null;
     }
